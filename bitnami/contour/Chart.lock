@@ -1,6 +1,0 @@
-dependencies:
-- name: common
-  repository: https://deepy.github.io/contour-chart/
-  version: 2.31.4
-digest: sha256:45837f10fb9078de859408ec44efd87c67151ef366900a593f239cf239a4d037
-generated: "2025-08-15T17:31:29.2159+02:00"

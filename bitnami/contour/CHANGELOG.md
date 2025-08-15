@@ -1,5 +1,9 @@
 # Changelog
 
+## 21.1.1
+* Copy the functions used from `bitnami/common` into the chart
+* Remove the dependency on `bitnami/common`
+
 ## 21.1.0 (2025-08-12)
 
 * [bitnami/contour] feat: Standardize default Envoy init-config init-container ([#35760](https://github.com/bitnami/charts/pull/35760))
