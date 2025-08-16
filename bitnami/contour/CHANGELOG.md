@@ -1,5 +1,8 @@
 # Changelog
 
+## 21.1.2
+* Use images directly from contour and envoy instead of bitnami
+
 ## 21.1.1
 * Copy the functions used from `bitnami/common` into the chart
 * Remove the dependency on `bitnami/common`

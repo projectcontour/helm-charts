@@ -3,20 +3,12 @@
 
 annotations:
   category: Infrastructure
-  images: |
-    - name: contour
-      image: docker.io/bitnami/contour:1.32.0-debian-12-r7
-    - name: envoy
-      image: docker.io/bitnami/envoy:1.34.4-debian-12-r0
-    - name: nginx
-      image: docker.io/bitnami/nginx:1.29.0-debian-12-r6
   licenses: Apache-2.0
-  tanzuCategory: clusterUtility
 apiVersion: v2
 appVersion: 1.32.0
 description: Contour is an open source Kubernetes ingress controller that works by
   deploying the Envoy proxy as a reverse proxy and load balancer.
-home: https://bitnami.com
+home: https://projectcontour.io/
 icon: https://dyltqmyl993wv.cloudfront.net/assets/stacks/contour/img/contour-stack-220x234.png
 keywords:
 - ingress
@@ -28,4 +20,4 @@ maintainers:
 name: contour
 sources:
 - https://github.com/bitnami/charts/tree/main/bitnami/contour
-version: 21.1.1
+version: 21.1.2
