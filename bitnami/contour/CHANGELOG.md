@@ -1,4 +1,6 @@
 # Changelog
+## 22.0.0
+* Remove `defaultBackend` functionality
 
 ## 21.1.2
 * Use images directly from contour and envoy instead of bitnami

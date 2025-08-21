@@ -551,13 +551,6 @@ Return the appropriate apiVersion for Horizontal Pod Autoscaler.
 {{- end -}}
 
 {{/*
-Return the appropriate apiVersion for ingress.
-*/}}
-{{- define "common.capabilities.ingress.apiVersion" -}}
-{{- print "networking.k8s.io/v1" -}}
-{{- end -}}
-
-{{/*
 Return the appropriate apiVersion for poddisruptionbudget.
 */}}
 {{- define "common.capabilities.policy.apiVersion" -}}

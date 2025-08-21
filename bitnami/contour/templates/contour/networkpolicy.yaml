@@ -54,15 +54,6 @@ spec:
             matchLabels: {{- include "common.labels.matchLabels" ( dict "customLabels" $podLabels "context" $ ) | nindent 14 }}
               app.kubernetes.io/component: envoy
     {{- end }}
-    {{- if .Values.defaultBackend.enabled }}
-    # Allow outbound connections to envoy
-    - ports:
-        - port: {{ .Values.defaultBackend.containerPorts.http }}
-      to:
-        - podSelector: 
-            matchLabels: {{- include "common.labels.matchLabels" ( dict "customLabels" $podLabels "context" $ ) | nindent 14 }}
-              app.kubernetes.io/component: default-backend
-    {{- end }}
     {{- if .Values.contour.networkPolicy.extraEgress }}
     {{- include "common.tplvalues.render" ( dict "value" .Values.contour.networkPolicy.extraEgress "context" $ ) | nindent 4 }}
     {{- end }}
