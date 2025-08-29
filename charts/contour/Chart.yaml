@@ -11,8 +11,8 @@ keywords:
 - envoy
 - contour
 maintainers:
-- name: Alex Nordlund
+- name: Contour Team
 name: contour
 sources:
-- https://github.com/deepy/contour-chart/tree/main/charts/contour
+- https://github.com/projectcontour/helm-charts/tree/main/charts/contour
 version: 22.0.1
