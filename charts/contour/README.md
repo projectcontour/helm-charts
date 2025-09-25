@@ -1,53 +1,29 @@
-<!--- app-name: Contour -->
+# Helm Chart for Contour
 
-# Bitnami package for Contour
+A Helm chart for installing Contour.
 
-Contour is an open source Kubernetes ingress controller that works by deploying the Envoy proxy as a reverse proxy and load balancer.
+This chart is a fork of Contour chart from the [Bitnami charts](https://github.com/bitnami/charts) project, which has since been discontinued.
 
-[Overview of Contour](https://github.com/projectcontour/contour)
-
-Trademarks: This software listing is packaged by Bitnami. The respective trademarks mentioned in the offering are owned by the respective companies, and use of them does not imply any affiliation or endorsement.
-
-## TL;DR
-
-```console
-helm install my-release oci://registry-1.docker.io/bitnamicharts/contour
-```
-
-Looking to use Contour in production? Try [VMware Tanzu Application Catalog](https://bitnami.com/enterprise), the commercial edition of the Bitnami catalog.
-
-## ⚠️ Important Notice: Upcoming changes to the Bitnami Catalog
-
-Beginning August 28th, 2025, Bitnami will evolve its public catalog to offer a curated set of hardened, security-focused images under the new [Bitnami Secure Images initiative](https://news.broadcom.com/app-dev/broadcom-introduces-bitnami-secure-images-for-production-ready-containerized-applications). As part of this transition:
-
-- Granting community users access for the first time to security-optimized versions of popular container images.
-- Bitnami will begin deprecating support for non-hardened, Debian-based software images in its free tier and will gradually remove non-latest tags from the public catalog. As a result, community users will have access to a reduced number of hardened images. These images are published only under the “latest” tag and are intended for development purposes
-- Starting August 28th, over two weeks, all existing container images, including older or versioned tags (e.g., 2.50.0, 10.6), will be migrated from the public catalog (docker.io/bitnami) to the “Bitnami Legacy” repository (docker.io/bitnamilegacy), where they will no longer receive updates.
-- For production workloads and long-term support, users are encouraged to adopt Bitnami Secure Images, which include hardened containers, smaller attack surfaces, CVE transparency (via VEX/KEV), SBOMs, and enterprise support.
-
-These changes aim to improve the security posture of all Bitnami users by promoting best practices for software supply chain integrity and up-to-date deployments. For more details, visit the [Bitnami Secure Images announcement](https://github.com/bitnami/containers/issues/83267).
 
 ## Introduction
 
-Bitnami charts for Helm are carefully engineered, actively maintained and are the quickest and easiest way to deploy containers on a Kubernetes cluster that are ready to handle production workloads.
-
-This chart bootstraps a [Contour](https://projectcontour.io) Ingress Controller Deployment and a [Envoy Proxy](https://www.envoyproxy.io) Daemonset on a [Kubernetes](https://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
+This chart bootstraps a [Contour](https://projectcontour.io) Ingress Controller Deployment and an [Envoy Proxy](https://www.envoyproxy.io) DaemonSet on a [Kubernetes](https://kubernetes.io) cluster using the [Helm](https://helm.sh) package manager.
 
 ## Prerequisites
 
 - Kubernetes 1.23+
 - Helm 3.8.0+
-- An Operator for `ServiceType: LoadBalancer` like [MetalLB](https://github.com/bitnami/charts/tree/main/bitnami/metallb)
+- An Operator for `ServiceType: LoadBalancer` like [MetalLB](https://metallb.io/)
 
 ## Installing the Chart
 
 To install the chart with the release name `my-release`:
 
 ```console
-helm install my-release oci://REGISTRY_NAME/REPOSITORY_NAME/contour
+helm repo add contour https://projectcontour.github.io/helm-charts/
+helm repo update
+helm install my-release contour/contour
 ```
-
-> Note: You need to substitute the placeholders `REGISTRY_NAME` and `REPOSITORY_NAME` with a reference to your Helm chart registry and repository. For example, in the case of Bitnami, you need to use `REGISTRY_NAME=registry-1.docker.io` and `REPOSITORY_NAME=bitnamicharts`.
 
 These commands deploy contour on the Kubernetes cluster in the default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
 
@@ -57,9 +33,10 @@ These commands deploy contour on the Kubernetes cluster in the default configura
 
 ### Resource requests and limits
 
-Bitnami charts allow setting resource requests and limits for all containers inside the chart deployment. These are inside the `resources` value (check parameter table). Setting requests is essential for production workloads and these should be adapted to your specific use case.
+The chart allows setting resource requests and limits for all containers inside the chart deployment. These are defined in the `resources` value (see the parameters table). Setting requests is essential for production workloads and these should be adapted to your specific use case.
 
-To make this process easier, the chart contains the `resourcesPreset` values, which automatically sets the `resources` section according to different presets. Check these presets in [the bitnami/common chart](https://github.com/bitnami/charts/blob/main/bitnami/common/templates/_resources.tpl#L15). However, in production workloads using `resourcesPreset` is discouraged as it may not fully adapt to your specific needs. Find more information on container resource management in the [official Kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/).
+To make this process easier, the chart contains the `resourcesPreset` values, which automatically sets the `resources` section according to different presets.
+However, in production workloads using `resourcesPreset` is discouraged as it may not fully adapt to your specific needs. Find more information on container resource management in the [official Kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/manage-resources-containers/).
 
 ### Prometheus metrics
 
@@ -67,7 +44,7 @@ This chart can be integrated with Prometheus by setting `metrics.enabled` to tru
 
 #### Prometheus requirements
 
-It is necessary to have a working installation of Prometheus or Prometheus Operator for the integration to work. Install the [Bitnami Prometheus helm chart](https://github.com/bitnami/charts/tree/main/bitnami/prometheus) or the [Bitnami Kube Prometheus helm chart](https://github.com/bitnami/charts/tree/main/bitnami/kube-prometheus) to easily have a working Prometheus in your cluster.
+It is necessary to have a working installation of Prometheus or Prometheus Operator for the integration to work.
 
 #### Integration with Prometheus Operator
 
@@ -77,21 +54,15 @@ The chart can deploy `ServiceMonitor` objects for integration with Prometheus Op
 no matches for kind "ServiceMonitor" in version "monitoring.coreos.com/v1"
 ```
 
-Install the [Bitnami Kube Prometheus helm chart](https://github.com/bitnami/charts/tree/main/bitnami/kube-prometheus) for having the necessary CRDs and the Prometheus Operator.
-
-### [Rolling VS Immutable tags](https://techdocs.broadcom.com/us/en/vmware-tanzu/application-catalog/tanzu-application-catalog/services/tac-doc/apps-tutorials-understand-rolling-tags-containers-index.html)
+### Rolling VS Immutable tags
 
 It is strongly recommended to use immutable tags in a production environment. This ensures your deployment does not change automatically if the same tag is updated with a different image.
 
-Bitnami will release a new chart updating its containers if a new version of the main container, significant changes, or critical vulnerabilities exist.
+A new chart will be released updating its containers if a new version of the main container, significant changes, or critical vulnerabilities exist.
 
 To configure [Contour](https://projectcontour.io) please look into the configuration section [Contour Configuration](https://projectcontour.io/docs/main/configuration/).
 
-### Backup and restore
-
-To back up and restore Helm chart deployments on Kubernetes, you need to back up the persistent volumes from the source deployment and attach them to a new deployment using [Velero](https://velero.io/), a Kubernetes backup/restore tool. Find the instructions for using Velero in [this guide](https://techdocs.broadcom.com/us/en/vmware-tanzu/application-catalog/tanzu-application-catalog/services/tac-doc/apps-tutorials-backup-restore-deployments-velero-index.html).
-
-### Example Quickstart Contour Confiuration
+### Example Quickstart Contour Configuration
 
 ```yaml
 configInline:
@@ -189,7 +160,8 @@ envoy:
 
 This chart allows you to set your custom affinity using the `XXX.affinity` parameter(s). Find more information about Pod's affinity in the [kubernetes documentation](https://kubernetes.io/docs/concepts/configuration/assign-pod-node/#affinity-and-anti-affinity).
 
-As an alternative, you can use of the preset configurations for pod affinity, pod anti-affinity, and node affinity available at the [bitnami/common](https://github.com/bitnami/charts/tree/main/bitnami/common#affinities) chart. To do so, set the `XXX.podAffinityPreset`, `XXX.podAntiAffinityPreset`, or `XXX.nodeAffinityPreset` parameters.
+As an alternative, you can use the preset configurations for pod affinity, pod anti-affinity, and node affinity.
+To do so, set the `XXX.podAffinityPreset`, `XXX.podAntiAffinityPreset`, or `XXX.nodeAffinityPreset` parameters.
 
 ## Parameters
 
@@ -594,172 +566,7 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 ```console
 helm install my-release \
   --set envoy.readinessProbe.successThreshold=5 \
-    oci://REGISTRY_NAME/REPOSITORY_NAME/contour
+    contour/contour
 ```
-
-> Note: You need to substitute the placeholders `REGISTRY_NAME` and `REPOSITORY_NAME` with a reference to your Helm chart registry and repository. For example, in the case of Bitnami, you need to use `REGISTRY_NAME=registry-1.docker.io` and `REPOSITORY_NAME=bitnamicharts`.
 
 The above command sets the `envoy.readinessProbe.successThreshold` to `5`.
-
-## Troubleshooting
-
-Find more information about how to deal with common errors related to Bitnami's Helm charts in [this troubleshooting guide](https://docs.bitnami.com/general/how-to/troubleshoot-helm-chart-issues).
-
-## Upgrading
-
-### To 19.4.0
-
-This version introduces image verification for security purposes. To disable it, set `global.security.allowInsecureImages` to `true`. More details at [GitHub issue](https://github.com/bitnami/charts/issues/30850).
-
-Please carefully read through the guide "Upgrading Contour" at <https://projectcontour.io/resources/upgrading/>.
-
-### To 15.0.0
-
-This major bump changes the following security defaults:
-
-- `runAsGroup` is changed from `0` to `1001`
-- `readOnlyRootFilesystem` is set to `true`
-- `resourcesPreset` is changed from `none` to the minimum size working in our test suites (NOTE: `resourcesPreset` is not meant for production usage, but `resources` adapted to your use case).
-- `global.compatibility.openshift.adaptSecurityContext` is changed from `disabled` to `auto`.
-- `envoy.useHostPort.*` are changed from `true` to `false`.
-- Added missing liveness and readiness probes in components like shutdown-manager
-
-This could potentially break any customization or init scripts used in your deployment. If this is the case, change the default values to the previous ones.
-
-### To 14.0.0
-
-This major release adds support for Kubernetes PSA restricted mode out of the box. In order to do so, `hostNetwork` is disabled by default in envoy. In order to maintain `hostNetwork` in your current installation set `envoy.useHostNetwork=true`.
-
-### To 7.0.0
-
-This major release renames several values in this chart and adds missing features, in order to be inline with the rest of assets in the Bitnami charts repository.
-
-Affected values:
-
-- `prometheus` renamed as `metrics`.
-- `serviceMonitor.labels` renamed as `serviceMonitor.selector`.
-- `service.port` renamed as `service.ports.xds`.
-- `service.nodePort` renamed as `service.nodePorts.xds`.
-- `contour.updateStrategy` and `worker.updateStrategy` changed from String type (previously default to 'rollingUpdate') to Object type, allowing users to configure other updateStrategy parameters, similar to other charts.
-
-### To 6.0.0
-
-This version updates the chart to use Contour's latest release, `1.19.0`. Among other features, this new version introduces support for new kinds of CRDs: `ContourConfiguration` and `ContourDeployment`. For further information on new features, please refer to the [official release notes](https://github.com/projectcontour/contour/releases/tag/v1.19.0) for this version.
-
-Additionally, exisiting CRDs have been syncronised with the official [Contour repository](https://github.com/projectcontour/contour/blob/main/examples/render/contour.yaml)
-
-#### Considerations when upgrading to this version
-
-If you are installing a fresh chart, you can ignore this section.
-
-If you are upgrading from 5.x of this Helm chart, this is a breaking change as the new CRDs will not overwrite the existing ones. Therefore, you will need to delete the CRDs and let the chart recreate them. Make sure to back up any existing CRs (`kubectl get -o yaml extensionservice,httpproxy,tlscertificatedelegation -A > backup.yaml`) unless you have other ways of recreating them.
-
-### To 5.2.0
-
-This version bumps the Envoy container from 1.17.X to 1.19.X; this Envoy version is officially supported by Contour since 1.18.0, see <https://github.com/projectcontour/contour/releases/tag/v1.18.0>
-
-### To 5.0.0
-
-In this version it was synchronized CRD with the official [Contour repository](https://github.com/projectcontour/contour/blob/main/examples/render/contour.yaml)
-
-#### Considerations when upgrading to 5.0.0
-
-If you are installing a fresh chart, you can ignore this section.
-
-If you are upgrading from 4.x of this Helm chart, this is a breaking change as the new CRDs will not overwrite the existing ones. Therefore, you will need to delete the CRDs and let the chart recreate them. Make sure to back up any existing CRs (`kubectl get -o yaml extensionservice,httpproxy,tlscertificatedelegation -A > backup.yaml`) unless you have other ways of recreating them.
-
-### To 4.0.0
-
-The 4.0 version of this chart introduces changes to handle Contour CRD upgrades. While Helm 3.x introduced the `crd` folder to place CRDs, Helm explicitly does not handle the [CRD upgrade scenario](https://helm.sh/docs/chart_best_practices/custom_resource_definitions/#some-caveats-and-explanations).
-
-#### What changes were introduced in 4.0.0?
-
-- The `resources` directory was added that contains all the Contour CRDs, which are imported by the `templates/00-crds.yaml` manifest on installation and upgrade.
-- If you do not wish for this chart to manage Contour CRDs, set the flag `contour.manageCRDs` to `false` when running Helm.
-
-#### Considerations when upgrading to 4.0.0
-
-If you are installing a fresh chart, or if you are upgrading from a 4.x version of this chart, you can ignore this section.
-
-If you are upgrading from 3.x of this Helm chart, this is a breaking change as the new CRDs will not overwrite the existing ones. Therefore, you will need to delete the CRDs and let the chart recreate them. Make sure to back up any existing CRs (`kubectl get -o yaml extensionservice,httpproxy,tlscertificatedelegation -A > backup.yaml`) unless you have other ways of recreating them.
-
-If required, back up your existing Custom Resources:
-
-```console
-kubectl get -o yaml extensionservice,httpproxy,tlscertificatedelegation -A > backup.yaml
-```
-
-Delete the existing Contour CRDs. Note that this step will _also delete_ the associated CRs and impact availability until the upgrade is complete and the backup restored:
-
-```console
-kubectl delete extensionservices.projectcontour.io
-kubectl delete httpproxies.projectcontour.io
-kubectl delete tlscertificatedelegations.projectcontour.io
-```
-
-Upgrade the Contour chart with the release name `my-release`:
-
-```console
-helm upgrade my-release oci://REGISTRY_NAME/REPOSITORY_NAME/contour
-```
-
-> Note: You need to substitute the placeholders `REGISTRY_NAME` and `REPOSITORY_NAME` with a reference to your Helm chart registry and repository. For example, in the case of Bitnami, you need to use `REGISTRY_NAME=registry-1.docker.io` and `REPOSITORY_NAME=bitnamicharts`.
-
-If you made a backup earlier, restore the objects:
-
-```console
-kubectl apply -f backup.yaml
-```
-
-### To 3.0.0
-
-[On November 13, 2020, Helm v2 support was formally finished](https://github.com/helm/charts#status-of-the-project), this major version is the result of the required changes applied to the Helm Chart to be able to incorporate the different features added in Helm v3 and to be consistent with the Helm project itself regarding the Helm v2 EOL.
-
-#### What changes were introduced in 3.0.0?
-
-- Previous versions of this Helm Chart use `apiVersion: v1` (installable by both Helm 2 and 3), this Helm Chart was updated to `apiVersion: v2` (installable by Helm 3 only). [Here](https://helm.sh/docs/topics/charts/#the-apiversion-field) you can find more information about the `apiVersion` field.
-- Move dependency information from the _requirements.yaml_ to the _Chart.yaml_
-- After running `helm dependency update`, a _Chart.lock_ file is generated containing the same structure used in the previous _requirements.lock_
-- The different fields present in the _Chart.yaml_ file has been ordered alphabetically in a homogeneous way for all the Bitnami Helm Charts
-
-#### Considerations when upgrading to 3.0.0
-
-- If you want to upgrade to this version from a previous one installed with Helm v3, you shouldn't face any issues
-- If you want to upgrade to this version using Helm v2, this scenario is not supported as this version doesn't support Helm v2 anymore
-- If you installed the previous version with Helm v2 and wants to upgrade to this version with Helm v3, please refer to the [official Helm documentation](https://helm.sh/docs/topics/v2_v3_migration/#migration-use-cases) about migrating from Helm v2 to v3
-
-#### Useful links
-
-- <https://techdocs.broadcom.com/us/en/vmware-tanzu/application-catalog/tanzu-application-catalog/services/tac-doc/apps-tutorials-resolve-helm2-helm3-post-migration-issues-index.html>
-- <https://helm.sh/docs/topics/v2_v3_migration/>
-- <https://helm.sh/blog/migrate-from-helm-v2-to-helm-v3/>
-
-### To 2.0.0
-
-Most important changes are:
-
-- Using helm hooks to generate new TLS certificates for gRPC calls between Contour and Envoy. This enables us to use the same container image for the contour controller and the certgen job without upgrade issues due to JobSpec immutability.
-- Rename parameter `contour.createCustomResource` to `contour.installCRDs`
-- Sync CRDs with [upstream project examples](https://github.com/projectcontour/contour/tree/main/examples/contour). Please remember that helm does not touch existing CRDs. As of today, the most reliable way to update the CRDs is, to do it outside helm (Use `--skip-crds` when using helm v3 and `--set contour.installCRDs=false` when using helm v2). Read [Upgrading Contour](https://projectcontour.io/resources/upgrading/) and execute the following `kubectl` command before helm upgrade:
-
-```console
-kubectl apply -f https://raw.githubusercontent.com/projectcontour/contour/release-{{version}}/examples/contour/01-crds.yaml
-```
-
-This version also introduces `bitnami/common`, a [library chart](https://helm.sh/docs/topics/library_charts/#helm) as a dependency. More documentation about this new utility could be found [here](https://github.com/bitnami/charts/tree/main/bitnami/common#bitnami-common-library-chart). Please, make sure that you have updated the chart dependencies before executing any upgrade.
-
-## License
-
-Copyright &copy; 2025 Broadcom. The term "Broadcom" refers to Broadcom Inc. and/or its subsidiaries.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-<http://www.apache.org/licenses/LICENSE-2.0>
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
