@@ -1,4 +1,8 @@
 # Changelog
+## 0.2.0
+* Contour upgraded to 1.33.0
+* Envoy upgraded to 1.35.2
+
 ## 0.1.0
 * Forked from [bitnami/charts/contour](https://github.com/bitnami/charts/tree/main/bitnami/contour) version 21.1.0
 * Remove `defaultBackend` functionality
