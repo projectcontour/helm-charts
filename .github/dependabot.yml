@@ -1,0 +1,29 @@
+# Please see the documentation for all configuration options:
+# https://docs.github.com/github/administering-a-repository/configuration-options-for-dependency-updates
+
+version: 2
+updates:
+# main branch targets
+- target-branch: main
+  package-ecosystem: "gomod"
+  directory: "/"
+  schedule:
+    interval: "weekly"
+    day: "sunday"
+  labels:
+  - area/dependency
+  - release-note/none-required
+- target-branch: main
+  package-ecosystem: "github-actions"
+  directory: "/"
+  schedule:
+    interval: "weekly"
+    day: "sunday"
+  labels:
+  - area/tooling
+  - release-note/none-required
+  groups:
+    artifact-actions:
+      patterns:
+      - "actions/upload-artifact"
+      - "actions/download-artifact"
