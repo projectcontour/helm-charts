@@ -27,22 +27,11 @@ lint-golint: ## Run Go linter
 	@echo Running Go linter ...
 	@./hack/golangci-lint run --build-tags=e2e,none
 
-.PHONY: setup-kind-cluster
-setup-kind-cluster: ## Make a kind cluster for testing
-	$(KIND) create cluster --name $(CLUSTERNAME) --config test/scripts/kind-expose-port.yaml
-
 .PHONY: e2e
-e2e: | setup-kind-cluster run-e2e cleanup-kind ## Run E2E tests against a real k8s cluster
-
-.PHONY: run-e2e
-run-e2e:
+e2e: ## Run E2E tests against KinD cluster
 	CONTOUR_E2E_HTTP_URL_BASE=$(CONTOUR_E2E_HTTP_URL_BASE) \
 	CONTOUR_E2E_HTTPS_URL_BASE=$(CONTOUR_E2E_HTTPS_URL_BASE) \
 	go run github.com/onsi/ginkgo/v2/ginkgo -tags=e2e -mod=readonly -keep-going -randomize-suites -randomize-all -poll-progress-after=120s --focus '$(CONTOUR_E2E_TEST_FOCUS)' $(CONTOUR_E2E_GINKGO_ARGS) -r $(CONTOUR_E2E_PACKAGE_FOCUS)
-
-.PHONY: cleanup-kind
-cleanup-kind: ## Delete the kind cluster
-	$(KIND) delete cluster --name $(CLUSTERNAME)
 
 help: ## Display this help
 	@echo Targets:
