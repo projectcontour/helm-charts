@@ -1,5 +1,6 @@
 on:
-  pull_request:
+  # Note: Using 'pull_request_target' to ensure the token has write permissions for modifying pull requests
+  pull_request_target:
     types: [opened, reopened, ready_for_review]
 
 permissions:
@@ -10,9 +11,9 @@ jobs:
     if: github.repository == 'projectcontour/helm-charts'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      # Security note: Avoid checking out the pull request's code to prevent running untrusted code with 'pull_request_target'.
       - name: Request reviewers
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr edit ${{ github.event.pull_request.number }} --add-reviewer contour-helm-chart-maintainers
+          gh pr edit ${{ github.event.pull_request.number }} --repo "${{ github.repository }}" --add-reviewer contour-helm-chart-maintainers
