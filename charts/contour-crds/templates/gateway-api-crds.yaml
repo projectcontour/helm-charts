@@ -1,0 +1,3 @@
+{{- if .Values.enableGatewayCRDs }}
+{{- $.Files.Get "src/raw-gateway-api-crds.yaml" -}}
+{{- end }}
