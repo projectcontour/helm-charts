@@ -16,4 +16,4 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          gh pr edit ${{ github.event.pull_request.number }} --repo "${{ github.repository }}" --add-reviewer contour-helm-chart-maintainers
+          gh pr edit ${{ github.event.pull_request.number }} --repo "${{ github.repository }}" --add-reviewer projectcontour/contour-helm-chart-maintainers
