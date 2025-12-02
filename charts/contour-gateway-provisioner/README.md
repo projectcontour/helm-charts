@@ -40,6 +40,7 @@ helm template test ./charts/contour-gateway-provisioner \
 | `metricsAddress`         | Metrics bind address                                                | `127.0.0.1:8080` |
 | `serviceAccount.create`  | Create a ServiceAccount for the provisioner                         | `true`         |
 | `serviceAccount.name`    | Override ServiceAccount name                                        | `""`           |
+| `serviceAccount.namespace` | Override ServiceAccount namespace used in RBAC subjects           | `""`           |
 | `serviceAccount.annotations` | Annotations for the ServiceAccount                              | `{}`           |
 | `serviceAccount.automountServiceAccountToken` | Automount ServiceAccount token                        | `true`         |
 | `resources.requests`     | Resource requests for the controller                                | `cpu: 100m`, `memory: 70Mi` |
