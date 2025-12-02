@@ -1,0 +1,35 @@
+replicaCount: 1
+
+image:
+  registry: ghcr.io
+  repository: projectcontour/contour
+  tag: v1.33.0
+  pullPolicy: IfNotPresent
+  pullSecrets: []
+
+serviceAccount:
+  create: true
+  name: ""
+  annotations: {}
+  automountServiceAccountToken: true
+
+podAnnotations: {}
+podLabels: {}
+
+nodeSelector: {}
+tolerations: []
+affinity: {}
+
+resources:
+  requests:
+    cpu: 100m
+    memory: 70Mi
+  limits: {}
+
+## Arguments
+metricsAddress: "127.0.0.1:8080"
+extraArgs: []
+
+## RBAC
+rbac:
+  create: true

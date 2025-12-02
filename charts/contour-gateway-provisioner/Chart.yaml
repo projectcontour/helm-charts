@@ -1,0 +1,11 @@
+apiVersion: v2
+name: contour-gateway-provisioner
+description: Contour Gateway API provisioner deployment chart.
+type: application
+version: 0.1.0
+appVersion: 1.33.0
+home: https://projectcontour.io/
+sources:
+  - https://github.com/projectcontour/contour
+maintainers:
+  - name: Contour Team
