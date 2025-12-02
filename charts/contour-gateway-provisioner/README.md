@@ -2,6 +2,8 @@
 
 Deploys the Contour Gateway API provisioner controller using the upstream example manifest for dynamically provisioned Gateways.
 
+> **Note:** The Gateway API and Contour CRDs must be installed in the cluster before running the provisioner. It watches those resources (GatewayClass, Gateway, ContourDeployment, etc.) and will fail without the CRDs present.
+
 ## Installing the Chart
 
 ```console
