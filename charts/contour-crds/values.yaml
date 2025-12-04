@@ -1,0 +1,10 @@
+## @section Contour CRDs
+contour:
+  ## @param contour.manageCRDs Manage the creation, upgrade and deletion of Contour CRDs.
+  manageCRDs: true
+
+## @section Gateway API CRDs
+
+gatewayAPI:
+  ## @param gatewayAPI.manageCRDs Manage the creation, upgrade and deletion of Gateway API CRDs.
+  manageCRDs: false
