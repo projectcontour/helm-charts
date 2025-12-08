@@ -1,0 +1,6 @@
+apiVersion: v2
+name: contour-crds-lib
+description: Shared CRD templates for Contour and Gateway API charts.
+type: library
+version: 0.1.0
+appVersion: 1.33.0

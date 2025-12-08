@@ -4,6 +4,8 @@ A Helm chart for installing Contour.
 
 This chart is a fork of Contour chart from the [Bitnami charts](https://github.com/bitnami/charts) project, which has since been discontinued.
 
+> **CRD management:** This chart installs the Contour CRDs by default. If you want to version and manage CRDs centrally, use the separate `contour-crds` chart and disable CRD management in this chart (`contour.manageCRDs: false`, `gatewayAPI.manageCRDs: false`).
+
 
 ## Introduction
 
