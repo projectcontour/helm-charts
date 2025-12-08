@@ -1,0 +1,6 @@
+dependencies:
+- name: contour-crds-lib
+  repository: file://../contour-crds-lib
+  version: 0.1.0
+digest: sha256:93ab41c34d42ea96e81012909b1e45303b16f45dcb7e7b5c99e39bbb443c6d7a
+generated: "2025-12-08T12:22:27.729355+01:00"

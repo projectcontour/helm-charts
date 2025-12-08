@@ -1,4 +1,7 @@
 # Changelog
+## 0.3.0
+* Centralize Contour and Gateway API CRDs in a shared library dependency to avoid duplicating manifests between charts.
+
 ## 0.2.0
 * Contour upgraded to 1.33.0
 * Envoy upgraded to 1.35.2

@@ -16,3 +16,7 @@ sources:
 - https://github.com/projectcontour/helm-charts/tree/main/charts/contour-crds
 version: 0.1.0
 appVersion: 1.33.0
+dependencies:
+- name: contour-crds-lib
+  version: 0.1.0
+  repository: file://../contour-crds-lib
