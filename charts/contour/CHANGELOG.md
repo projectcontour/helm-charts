@@ -1,4 +1,9 @@
 # Changelog
+## 0.2.1
+* Contour upgraded to 1.33.1
+* Envoy upgraded to 1.35.8
+* Adresses CVEs in Envoy
+
 ## 0.2.0
 * Contour upgraded to 1.33.0
 * Envoy upgraded to 1.35.2
