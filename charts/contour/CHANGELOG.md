@@ -1,4 +1,7 @@
 # Changelog
+## 0.2.2
+* Fixed `httpproxy` CRD bug with required fields - [projectcontour/contour#7391]
+
 ## 0.2.1
 * Contour upgraded to 1.33.1
 * Envoy upgraded to 1.35.8
