@@ -1,6 +1,6 @@
 # Changelog
 ## 0.2.2
-* Fixed `httpproxy` CRD bug with required fields - [projectcontour/contour#7391]
+* Fixed `httpproxy` CRD bug with required fields - [projectcontour/contour#7391](https://github.com/projectcontour/contour/issues/7391)
 
 ## 0.2.1
 * Contour upgraded to 1.33.1
