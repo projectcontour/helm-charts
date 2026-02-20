@@ -110,7 +110,7 @@ func main() {
 }
 
 func getLatestStableVersions() (string, string, error) {
-	resp, err := http.Get(contourVersionsURL)
+	resp, err := http.Get(contourVersionsURL) //nolint:gosec // G107: URL is constructed from a hardcoded constant
 	if err != nil {
 		return "", "", err
 	}

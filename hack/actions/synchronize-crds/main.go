@@ -68,36 +68,43 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to create temp dir: %v", err)
 	}
-	defer os.RemoveAll(tmpDir)
 
+	if err := syncCRDs(tmpDir, currentChartAppVersion); err != nil {
+		os.RemoveAll(tmpDir)
+		log.Fatalf("Failed to synchronize CRDs: %v", err)
+	}
+	os.RemoveAll(tmpDir)
+
+	log.Infof("Successfully synchronized CRDs.")
+}
+
+func syncCRDs(tmpDir, currentChartAppVersion string) error {
 	downloadPath := path.Join(tmpDir, "contour.tar.gz")
 	log.Infof("Downloading Contour source tarball for version %s to %s", currentChartAppVersion, downloadPath)
-	err = downloadFile(fmt.Sprintf(contourSourceURL, currentChartAppVersion), downloadPath)
+	err := downloadFile(fmt.Sprintf(contourSourceURL, currentChartAppVersion), downloadPath)
 	if err != nil {
-		log.Fatalf("Failed to download release: %v", err)
+		return fmt.Errorf("failed to download release: %w", err)
 	}
 
 	ctx := context.Background()
 	tar, err := archives.FileSystem(ctx, downloadPath, nil)
 	if err != nil {
-		log.Fatalf("Failed to open archive %s: %v", downloadPath, err)
+		return fmt.Errorf("failed to open archive %s: %w", downloadPath, err)
 	}
 
 	fullContourCRDSourcePath := fmt.Sprintf("contour-%s/%s", currentChartAppVersion, contourCRDSourcePath)
-	err = copyCRD(tar, fullContourCRDSourcePath, contourCRDDestPath, ".Values.contour.manageCRDs")
-	if err != nil {
-		log.Fatalf("Failed to copy Contour CRDs: %v", err)
+	if err := copyCRD(tar, fullContourCRDSourcePath, contourCRDDestPath, ".Values.contour.manageCRDs"); err != nil {
+		return fmt.Errorf("failed to copy Contour CRDs: %w", err)
 	}
 	log.Infof("Wrote Contour CRDs to %s", contourCRDDestPath)
 
 	fullGatewayCRDSourcePath := fmt.Sprintf("contour-%s/%s", currentChartAppVersion, gatewayCRDSourcePath)
-	err = copyCRD(tar, fullGatewayCRDSourcePath, gatewayCRDDestPath, ".Values.gatewayAPI.manageCRDs")
-	if err != nil {
-		log.Fatalf("Failed to copy Gateway API CRDs: %v", err)
+	if err := copyCRD(tar, fullGatewayCRDSourcePath, gatewayCRDDestPath, ".Values.gatewayAPI.manageCRDs"); err != nil {
+		return fmt.Errorf("failed to copy Gateway API CRDs: %w", err)
 	}
 	log.Infof("Wrote Gateway API CRDs to %s", gatewayCRDDestPath)
 
-	log.Infof("Successfully synchronized CRDs.")
+	return nil
 }
 
 // getCurrentChartAppVersion reads the current chart and app version.
@@ -121,7 +128,7 @@ func getCurrentChartAppVersion(filePath string) (string, error) {
 
 // downloadFile downloads a file from the given URL to the specified destination path.
 func downloadFile(sourceURL, destPath string) error {
-	resp, err := http.Get(sourceURL)
+	resp, err := http.Get(sourceURL) //nolint:gosec // G107: URL is constructed from a hardcoded constant
 	if err != nil {
 		return fmt.Errorf("failed to download %s: %w", sourceURL, err)
 	}
@@ -136,7 +143,7 @@ func downloadFile(sourceURL, destPath string) error {
 		return fmt.Errorf("failed to read response: %w", err)
 	}
 
-	if err := os.WriteFile(destPath, data, 0o644); err != nil {
+	if err := os.WriteFile(destPath, data, 0o644); err != nil { //nolint:gosec // G306: chart files are intentionally world-readable
 		return fmt.Errorf("failed to write file %s: %w", destPath, err)
 	}
 
@@ -155,7 +162,7 @@ func copyCRD(fsys fs.FS, srcPath, destPath, conditional string) error {
 		return fmt.Errorf("failed to read source file %s: %w", srcPath, err)
 	}
 
-	if err := os.WriteFile(destPath, injectConditional(conditional, data), 0o644); err != nil {
+	if err := os.WriteFile(destPath, injectConditional(conditional, data), 0o644); err != nil { //nolint:gosec // G306: chart files are intentionally world-readable
 		return fmt.Errorf("failed to write destination file %s: %w", destPath, err)
 	}
 
