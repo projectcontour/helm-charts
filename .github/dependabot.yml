@@ -11,7 +11,6 @@ updates:
     interval: "monthly"
   labels:
   - area/dependency
-  - release-note/none-required
 - target-branch: main
   package-ecosystem: "github-actions"
   directory: "/"
@@ -19,7 +18,6 @@ updates:
     interval: "monthly"
   labels:
   - area/tooling
-  - release-note/none-required
   groups:
     artifact-actions:
       patterns:
