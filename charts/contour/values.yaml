@@ -103,7 +103,7 @@ contour:
   image:
     registry: ghcr.io
     repository: projectcontour/contour
-    tag: v1.33.1
+    tag: v1.33.2
     digest: ""
     ## Specify a imagePullPolicy
     ## ref: https://kubernetes.io/docs/concepts/containers/images/#pre-pulled-images
@@ -644,7 +644,6 @@ contour:
     create: true
     minAvailable: ""
     maxUnavailable: ""
-
 ## @section Envoy parameters
 ##
 envoy:
@@ -1338,15 +1337,12 @@ envoy:
       ##     memory: 1024Mi
       ##
       resources: {}
-
 ## @section Gateway API parameters
 ##
-
 gatewayAPI:
   ## @param gatewayAPI.manageCRDs Manage the creation, upgrade and deletion of Gateway API CRDs.
   ##
   manageCRDs: false
-
 ## @section Metrics parameters
 ##
 metrics:

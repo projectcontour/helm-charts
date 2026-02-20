@@ -1,5 +1,3 @@
-# Source: https://raw.githubusercontent.com/projectcontour/contour/v{version}/examples/contour/01-crds.yaml
-# Version: 1.33.0
 # Conditional: .Values.contour.manageCRDs
 {{- if .Values.contour.manageCRDs }}
 ---
@@ -8583,7 +8581,6 @@ spec:
                                   The supported values are: "TCP", "UDP", "SCTP"
                                 type: string
                             required:
-                            - error
                             - port
                             - protocol
                             type: object
