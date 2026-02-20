@@ -21,22 +21,23 @@ To run e2e tests, you will need to have the following tools installed:
    ```bash
    git clone git@github.com:YOUR-USERNAME/helm-charts.git
    ```
+### Make targets
 
-### Running checks
+Run `make help` to see all available targets.
 
-```bash
-make checkall
-```
-
-See `make help` for a full list of available targets.
+Common targets:
+- `make lint` - Run all lint checks
+- `make lint-helm` - Run Helm lint only
+- `make lint-golint` - Run Go lint only
 
 ### Running E2E tests
 
-E2E tests are automatically run by CI when you submit a pull request, so running them locally is optional.
+E2E tests run automatically in CI when you submit a pull request, but you can run them locally.
 
-The test suite verifies chart installation and upgrade scenarios against a kind cluster.
-To create a cluster, run the full end-to-end test suite, and clean up afterwards, execute:
+The test suite verifies chart installation and upgrade scenarios against a kind cluster:
 
 ```bash
 make e2e
 ```
+
+This command creates a cluster, runs the full end-to-end test suite, and cleans up afterwards.
