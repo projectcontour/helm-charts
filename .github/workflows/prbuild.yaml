@@ -31,6 +31,8 @@ jobs:
       with:
         version: v2.10.1
         args: --build-tags=e2e
+    - name: helm-lint
+      run: helm lint --strict charts/contour/
 
   e2e:
     runs-on: ubuntu-latest
