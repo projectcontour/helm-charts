@@ -5,6 +5,29 @@ entries:
       category: Infrastructure
       licenses: Apache-2.0
     apiVersion: v2
+    appVersion: 1.33.5
+    created: "2026-05-28T19:35:16.125039828Z"
+    description: Contour is an open source Kubernetes ingress controller that works
+      by deploying the Envoy proxy as a reverse proxy and load balancer.
+    digest: 12b86411cf5ab2bcb1a9ff236d5426c9e6dfd2c2209c8a2478fac388fe29f844
+    home: https://projectcontour.io/
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/contour/icon/color/contour-icon-color.svg
+    keywords:
+    - ingress
+    - envoy
+    - contour
+    maintainers:
+    - name: Contour Team
+    name: contour
+    sources:
+    - https://github.com/projectcontour/helm-charts/tree/main/charts/contour
+    urls:
+    - https://github.com/projectcontour/helm-charts/releases/download/contour-0.6.0/contour-0.6.0.tgz
+    version: 0.6.0
+  - annotations:
+      category: Infrastructure
+      licenses: Apache-2.0
+    apiVersion: v2
     appVersion: 1.33.4
     created: "2026-04-21T05:05:42.379338676Z"
     description: Contour is an open source Kubernetes ingress controller that works
@@ -135,4 +158,4 @@ entries:
     urls:
     - https://github.com/projectcontour/helm-charts/releases/download/contour-0.1.0/contour-0.1.0.tgz
     version: 0.1.0
-generated: "2026-04-21T05:05:42.379359835Z"
+generated: "2026-05-28T19:35:16.125085946Z"
