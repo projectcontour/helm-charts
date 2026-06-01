@@ -33,6 +33,7 @@ const (
 	helmUpgradeTimeout   = 5 * time.Minute
 	helmUninstallTimeout = 1 * time.Minute
 	helmRepoTimeout      = 3 * time.Minute
+	helmTemplateTimeout  = 1 * time.Minute
 )
 
 func HelmInstall(releaseName, chartPath, namespace string, additionalArgs ...string) *Helm {
@@ -70,6 +71,15 @@ func (h *Helm) Uninstall() {
 // run executes a helm command and fails the test if it exits non-zero.
 func (h *Helm) runWithTimeout(cmdArgs []string, timeout time.Duration) {
 	runCommand(cmdArgs[0], timeout, false, nil, cmdArgs[1:]...)
+}
+
+// HelmTemplate renders the chart locally (client-side, no cluster required)
+// with the given additional args and returns the rendered manifests.
+func HelmTemplate(releaseName, chartPath string, additionalArgs ...string) string {
+	var stdout bytes.Buffer
+	cmdArgs := append([]string{"template", releaseName, chartPath}, additionalArgs...)
+	runCommand("helm", helmTemplateTimeout, false, &stdout, cmdArgs...)
+	return stdout.String()
 }
 
 // HelmRepoAdd adds a Helm repository and updates its index.
