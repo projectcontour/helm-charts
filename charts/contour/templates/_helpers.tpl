@@ -9,7 +9,7 @@ SPDX-License-Identifier: APACHE-2.0
 Create the name of the envoy service account to use
 */}}
 {{- define "envoy.envoyServiceAccountName" -}}
-{{- if .Values.contour.serviceAccount.create -}}
+{{- if .Values.envoy.serviceAccount.create -}}
     {{ default (printf "%s-envoy" (include "common.names.fullname" .)) .Values.envoy.serviceAccount.name }}
 {{- else -}}
     {{ default "default" .Values.envoy.serviceAccount.name }}
