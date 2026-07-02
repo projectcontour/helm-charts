@@ -15,4 +15,3 @@ maintainers:
 name: contour
 sources:
   - https://github.com/projectcontour/helm-charts/tree/main/charts/contour
-version: 0.6.1
