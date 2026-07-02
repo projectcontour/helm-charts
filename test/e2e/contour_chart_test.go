@@ -55,6 +55,47 @@ var _ = Describe("Contour", func() {
 		Expect(res.StatusCode).To(Equal(200))
 	}
 
+	// Template-only regression tests. These render the chart client-side and
+	// do not require a Kind cluster (they are intentionally declared outside
+	// f.NamespacedTest, which is what provisions a cluster).
+	Describe("service account name helpers", func() {
+		// Regression for the envoy.envoyServiceAccountName helper, which used to
+		// gate the rendered name on contour.serviceAccount.create instead of
+		// envoy.serviceAccount.create. With divergent flags that produced an
+		// envoy ServiceAccount object rendered with the name "default".
+		It("derives the envoy ServiceAccount name from envoy.serviceAccount.create", func() {
+			rendered := HelmTemplate(releaseName, chartPath,
+				"--show-only", "templates/envoy/serviceaccount.yaml",
+				"--set", "contour.serviceAccount.create=false",
+				"--set", "envoy.serviceAccount.create=true",
+			)
+
+			Expect(rendered).To(MatchRegexp(`(?m)^\s*name:\s+\S+-envoy\s*$`),
+				"envoy ServiceAccount should use its dedicated <fullname>-envoy name")
+			Expect(rendered).NotTo(MatchRegexp(`(?m)^\s*name:\s+default\s*$`),
+				"envoy ServiceAccount must not be named \"default\" when envoy.serviceAccount.create=true")
+		})
+
+		// The envoy ServiceAccount object is created based on
+		// envoy.serviceAccount.create, so when it is disabled the envoy workload
+		// must fall back to the "default" account rather than referencing a
+		// dedicated <fullname>-envoy account that is never created. Before the
+		// fix, the helper followed contour.serviceAccount.create and produced
+		// such a dangling reference.
+		It("falls back to the default SA for envoy when envoy.serviceAccount.create=false", func() {
+			rendered := HelmTemplate(releaseName, chartPath,
+				"--show-only", "templates/envoy/daemonset.yaml",
+				"--set", "contour.serviceAccount.create=true",
+				"--set", "envoy.serviceAccount.create=false",
+			)
+
+			Expect(rendered).To(MatchRegexp(`(?m)^\s*serviceAccountName:\s+default\s*$`),
+				"envoy workload should use the default SA when envoy.serviceAccount.create=false")
+			Expect(rendered).NotTo(MatchRegexp(`(?m)^\s*serviceAccountName:\s+\S+-envoy\s*$`),
+				"envoy workload must not reference a dedicated SA that is not created")
+		})
+	})
+
 	f.NamespacedTest("test-helm-installation", func(namespace string) {
 		It("should deploy contour using helm", func() {
 			helmRelease := HelmInstall(releaseName, chartPath, namespace, mandatoryInstallArgs...)
