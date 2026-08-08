@@ -44,10 +44,10 @@ var (
 	chartPath = "./charts/contour/Chart.yaml"
 
 	contourCRDSourcePath = "examples/contour/01-crds.yaml"
-	contourCRDDestPath   = "./charts/contour/templates/crds/contour-crds.yaml"
+	contourCRDDestPath   = "./charts/contour-crds/templates/contour-crds.yaml"
 
 	gatewayCRDSourcePath = "examples/gateway/00-crds.yaml"
-	gatewayCRDDestPath   = "./charts/contour/templates/crds/gateway-api-crds.yaml"
+	gatewayCRDDestPath   = "./charts/contour-crds/templates/gateway-api-crds.yaml"
 )
 
 func main() {
