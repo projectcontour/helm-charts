@@ -6,6 +6,34 @@ entries:
       licenses: Apache-2.0
     apiVersion: v2
     appVersion: 1.33.5
+    created: "2026-08-08T13:28:13.03455413Z"
+    dependencies:
+    - condition: contour.manageCRDs
+      name: contour-crds
+      repository: file://../contour-crds
+      version: 0.7.0
+    description: Contour is an open source Kubernetes ingress controller that works
+      by deploying the Envoy proxy as a reverse proxy and load balancer.
+    digest: 964f12f1013df6a31c4f5b153b344989bef91286cdad35288030347305902081
+    home: https://projectcontour.io/
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/contour/icon/color/contour-icon-color.svg
+    keywords:
+    - ingress
+    - envoy
+    - contour
+    maintainers:
+    - name: Contour Team
+    name: contour
+    sources:
+    - https://github.com/projectcontour/helm-charts/tree/main/charts/contour
+    urls:
+    - https://github.com/deepy/projectcontour-charts/releases/download/contour-0.7.0/contour-0.7.0.tgz
+    version: 0.7.0
+  - annotations:
+      category: Infrastructure
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 1.33.5
     created: "2026-08-08T13:17:13.221788103Z"
     description: Contour is an open source Kubernetes ingress controller that works
       by deploying the Envoy proxy as a reverse proxy and load balancer.
@@ -69,4 +97,28 @@ entries:
     urls:
     - https://github.com/projectcontour/helm-charts/releases/download/contour-0.1.0/contour-0.1.0.tgz
     version: 0.1.0
-generated: "2026-08-08T13:17:13.221801088Z"
+  contour-crds:
+  - annotations:
+      category: Infrastructure
+      licenses: Apache-2.0
+    apiVersion: v2
+    appVersion: 1.33.3
+    created: "2026-08-08T13:28:13.222382224Z"
+    description: Contour is an open source Kubernetes ingress controller that works
+      by deploying the Envoy proxy as a reverse proxy and load balancer.
+    digest: 42fd6015f68475c9299d2fda2e94ed73648f0ec4d22f69290496bbde3b172016
+    home: https://projectcontour.io/
+    icon: https://raw.githubusercontent.com/cncf/artwork/master/projects/contour/icon/color/contour-icon-color.svg
+    keywords:
+    - ingress
+    - envoy
+    - contour
+    maintainers:
+    - name: Contour Team
+    name: contour-crds
+    sources:
+    - https://github.com/projectcontour/helm-charts/tree/main/charts/contour
+    urls:
+    - https://github.com/deepy/projectcontour-charts/releases/download/contour-crds-0.7.0/contour-crds-0.7.0.tgz
+    version: 0.7.0
+generated: "2026-08-08T13:28:13.222393909Z"
