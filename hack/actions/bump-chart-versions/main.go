@@ -44,8 +44,9 @@ var (
 
 	contourVersionsURL = "https://raw.githubusercontent.com/projectcontour/contour/refs/heads/main/versions.yaml"
 
-	chartPath  = "./charts/contour/Chart.yaml"
-	valuesPath = "./charts/contour/values.yaml"
+	chartPath    = "./charts/contour/Chart.yaml"
+	crdChartPath = "./charts/contour-crds/Chart.yaml"
+	valuesPath   = "./charts/contour/values.yaml"
 )
 
 func main() {
@@ -84,6 +85,18 @@ func main() {
 		log.Fatalf("Failed to update Contour chart version: %v", err)
 	}
 	log.Infof("Updated Contour chart version to %s in %s", nextChartVersion, chartPath)
+
+	err = setYAMLField(crdChartPath, "version", nextChartVersion)
+	if err != nil {
+		log.Fatalf("Failed to update Contour CRD chart version: %v", err)
+	}
+	log.Infof("Updated Contour CRD chart version to %s in %s", nextChartVersion, chartPath)
+
+	err = setDependencyYAMLField(chartPath, "contour-crds", "version", nextChartVersion)
+	if err != nil {
+		log.Fatalf("Failed to update Contour CRD dependency version: %v", err)
+	}
+	log.Infof("Updated Contour CRD dependency version to %s in %s", nextChartVersion, chartPath)
 
 	err = setYAMLField(chartPath, "appVersion", contourVersion)
 	if err != nil {
@@ -191,6 +204,72 @@ func setYAMLField(filePath, fieldPath, newValue string) error {
 	}
 
 	return nil
+}
+
+func setDependencyYAMLField(filePath, dependency, fieldPath, newValue string) error {
+	data, err := os.ReadFile(filePath)
+	if err != nil {
+		return fmt.Errorf("failed to read file %s: %w", filePath, err)
+	}
+
+	var root yaml.Node
+	if err := yaml.Unmarshal(data, &root); err != nil {
+		return fmt.Errorf("failed to unmarshal yaml from %s: %w", filePath, err)
+	}
+
+	node := &root
+	if node.Kind == yaml.DocumentNode {
+		if len(node.Content) == 0 {
+			return fmt.Errorf("empty document")
+		}
+		node = node.Content[0]
+	}
+
+	parts := strings.Split(fieldPath, ".")
+	if err := updateDependencyNode(node, dependency, parts, newValue); err != nil {
+		return fmt.Errorf("failed to update field %s in %s: %w", fieldPath, filePath, err)
+	}
+
+	f, err := os.Create(filePath)
+	if err != nil {
+		return fmt.Errorf("failed to create file %s: %w", filePath, err)
+	}
+	defer f.Close()
+
+	encoder := yaml.NewEncoder(f)
+	encoder.SetIndent(2)
+	if err := encoder.Encode(&root); err != nil {
+		return fmt.Errorf("failed to encode yaml to %s: %w", filePath, err)
+	}
+
+	return nil
+}
+
+// updateNode recursively updates the YAML node at the specified path for a specific dependency.
+func updateDependencyNode(node *yaml.Node, dependency string, path []string, newValue string) error {
+	if len(path) == 0 {
+		node.Value = newValue
+		return nil
+	}
+
+	if node.Kind != yaml.MappingNode {
+		return fmt.Errorf("expected mapping node")
+	}
+
+	for i := 0; i < len(node.Content); i += 2 {
+		if node.Content[i].Value == "dependencies" {
+			var dependencies = node.Content[i+1]
+			for j := 0; j < len(dependencies.Content); j += 2 {
+				for k := 0; k < len(dependencies.Content[j].Content); k += 2 {
+					if dependencies.Content[j].Content[k].Value == "name" && dependencies.Content[j].Content[k+1].Value == dependency {
+						return updateNode(dependencies.Content[j], path, newValue)
+					}
+				}
+			}
+		}
+	}
+
+	return fmt.Errorf("field %s not found", path[0])
 }
 
 // updateNode recursively updates the YAML node at the specified path.
