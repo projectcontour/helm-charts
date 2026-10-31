@@ -2,7 +2,7 @@ name: Update Contour Helm chart
 
 on:
   schedule:
-    - cron: '0 4 * * *' # Runs daily at 04:00 UTC
+    - cron: '17 * * * *' # Runs every hour at minute 17. GitHub recommends not to use minute 0, it is the busiest time.
   workflow_dispatch:
 
 permissions:
