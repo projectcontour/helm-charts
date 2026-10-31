@@ -1,0 +1,11 @@
+# Settings for the release notes that GitHub generates.
+# Do not list updates of test tools and GitHub Actions.
+# Use label release-note/none-required to leave out any other PR.
+changelog:
+  exclude:
+    labels:
+      - area/dependency
+      - area/tooling
+      - release-note/none-required
+    authors:
+      - dependabot[bot]
