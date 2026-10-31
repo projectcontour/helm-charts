@@ -103,7 +103,7 @@ contour:
   image:
     registry: ghcr.io
     repository: projectcontour/contour
-    tag: v1.33.7
+    tag: v1.33.8
     digest: ""
     ## Specify a imagePullPolicy
     ## ref: https://kubernetes.io/docs/concepts/containers/images/#pre-pulled-images
@@ -662,7 +662,7 @@ envoy:
   image:
     registry: docker.io
     repository: envoyproxy/envoy
-    tag: v1.38.4
+    tag: v1.38.9
     digest: ""
     ## Specify a imagePullPolicy
     ## ref: https://kubernetes.io/docs/concepts/containers/images/#pre-pulled-images
