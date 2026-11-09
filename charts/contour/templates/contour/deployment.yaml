@@ -19,6 +19,7 @@ metadata:
 spec:
   {{- $podLabels := include "common.tplvalues.merge" ( dict "values" ( list .Values.contour.podLabels .Values.commonLabels $versionLabel ) "context" . ) }}
   replicas: {{ .Values.contour.replicaCount }}
+  revisionHistoryLimit: {{ .Values.contour.revisionHistoryLimit }}
   {{- if .Values.contour.updateStrategy }}
   strategy: {{- toYaml .Values.contour.updateStrategy | nindent 4 }}
   {{- end }}
