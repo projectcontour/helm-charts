@@ -162,6 +162,9 @@ contour:
   ## ref: https://kubernetes.io/docs/concepts/workloads/controllers/statefulset/#update-strategies
   ##
   updateStrategy: {}
+  ## @param contour.revisionHistoryLimit The number of old history to retain to allow rollback
+  ##
+  revisionHistoryLimit: 10
   ## @param contour.extraArgs [array] Extra arguments passed to Contour container
   ##
   extraArgs: []
