@@ -5,7 +5,7 @@ go 1.26.0
 require (
 	github.com/bombsimon/logrusr/v4 v4.2.0
 	github.com/mholt/archives v0.1.5
-	github.com/onsi/ginkgo/v2 v2.32.1
+	github.com/onsi/ginkgo/v2 v2.34.0
 	github.com/onsi/gomega v1.42.1
 	github.com/sirupsen/logrus v1.10.2
 	github.com/stretchr/testify v1.12.1
