@@ -11,6 +11,10 @@ updates:
     interval: "monthly"
   labels:
   - area/dependency
+  groups:
+    go-dependencies:
+      patterns:
+      - "*"
 - target-branch: main
   package-ecosystem: "github-actions"
   directory: "/"
