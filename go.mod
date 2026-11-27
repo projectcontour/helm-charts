@@ -10,8 +10,8 @@ require (
 	github.com/sirupsen/logrus v1.10.2
 	github.com/stretchr/testify v1.12.1
 	gopkg.in/yaml.v3 v3.0.1
-	k8s.io/apimachinery v0.37.0
-	sigs.k8s.io/controller-runtime v0.24.1
+	k8s.io/apimachinery v0.37.2
+	sigs.k8s.io/controller-runtime v0.25.3
 )
 
 require (
@@ -27,7 +27,7 @@ require (
 	github.com/google/go-cmp v0.7.0 // indirect
 	github.com/google/pprof v0.0.0-20260402051712-545e8a4df936 // indirect
 	github.com/hashicorp/golang-lru/v2 v2.0.7 // indirect
-	github.com/klauspost/compress v1.18.0 // indirect
+	github.com/klauspost/compress v1.19.0 // indirect
 	github.com/klauspost/pgzip v1.2.6 // indirect
 	github.com/mikelolasagasti/xz v1.0.1 // indirect
 	github.com/minio/minlz v1.0.1 // indirect
